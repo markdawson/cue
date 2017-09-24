@@ -53,9 +53,8 @@ def messages_response(request):
                 logger.info(nearby_locations)
 
                 post_message_to_fb(sender_id, str(nearby_locations))
-
-
                 post_message_to_fb(sender_id, "Great! I'll remind ya!")
+
             else:
                 post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
             return JsonResponse({'thanks': True})
