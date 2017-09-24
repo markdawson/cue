@@ -29,6 +29,7 @@ def messages_response(request):
 
         if not data['entry'][0]['messaging'][0].get('message'):
             postback_confirmed = data['entry'][0]['messaging'][0]['postback']['payload']
+            logger.info(postback_confirmed)
             if bool(postback_confirmed):
                 post_message_to_fb(sender_id, "Great! I'll remind ya!")
             else:
@@ -74,7 +75,9 @@ def messages_response(request):
                 post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
             return JsonResponse({'thanks': True})
 
-        if text=='hey':
+        location_pattern = "Add\s+my\s+location"
+        m = re.search(location_pattern, text)
+        if m:
             post_message_to_fb(sender_id, 'teehee')
             sleep(1)
             post_share_location_prompt_to_fb(sender_id)
