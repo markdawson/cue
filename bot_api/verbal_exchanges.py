@@ -239,7 +239,8 @@ insults_initial_patterns = [
     "you.+extra",
     "worthless",
     "idiot",
-    "you.+bad"
+    "you.+bad",
+    "hate.+you"
 ]
 
 insults_responses = [
