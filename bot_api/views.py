@@ -11,6 +11,7 @@ def messages_response(request):
 
     if request.method == 'POST':
         logger.info(request.POST)
+        logger.info(request.body)
         return JsonResponse({'thanks': True})
 
     else:
