@@ -21,6 +21,7 @@ def messages_response(request):
 
         sender_id = data['entry'][0]['messaging'][0]['sender']['id']
         text = data['entry'][0]['messaging'][0]['message'].get('text')
+        attachments = data['entry'][0]['messaging'][0]['message'].get('attachments')
 
         try:
             sender = CueUser.objects.get(user_id=sender_id)
@@ -33,6 +34,17 @@ def messages_response(request):
             post_message_to_fb(sender_id, 'teehee')
             sleep(1)
             post_share_location_prompt_to_fb(sender_id)
+            return JsonResponse({'thanks': True})
+
+        if attachments:
+            coords = attachments[0]['payload'].get('coordinates')
+            if coords:
+                lat = coords['lat']
+                long = coords['long']
+                u = CueUser.objects.get(user_id=sender_id)
+                u.home_lat = lat
+                u.home_long = long
+                u.save()
             return JsonResponse({'thanks': True})
 
         if text:

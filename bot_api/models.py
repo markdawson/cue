@@ -7,6 +7,8 @@ class CueUser(models.Model):
     iso_timezone = models.CharField(max_length=200)
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
+    home_lat = models.DecimalField(max_digits=9, decimal_places=6)
+    home_long = models.DecimalField(max_digits=9, decimal_places=6)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
