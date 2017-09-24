@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,10 +71,10 @@
 
 <br>
 
-<a href = "http:/m.me/cueparty">
+<a href="http://m.me/cueparty">
 <div id = "image">
     <center>
-    <img class = "hoverImages" src='images/cue_trans_cropped.png'>
+    <img class = "hoverImages" src="{% static "cue_trans_cropped.png" %}">
     </center>
 </div>
 </a>
@@ -93,7 +95,7 @@
 
     <div id = "footer2">
         Designed for
-        <img class = "foot" src = 'images/hackricelogo.svg'>
+        <img class = "foot" src="{% static "hackricelogo.svg" %}">
     </div>
 <div style = "clear: both;"></div>
 </div>
