@@ -19,7 +19,7 @@ def messages_response(request):
 
 
         sender = data['entry'][0]['messaging'][0]['sender']['id']
-        text = data.get('text')
+        text = "Don't even trip dog." #data.get('text')
 
         # payload = {
         #     "recipient": {
@@ -51,6 +51,7 @@ def messages_response(request):
         }
 
         r = requests.post(url, json=payload)
+        logger.info(text)
         logger.info(sender)
         logger.info(token)
         logger.info(url)
