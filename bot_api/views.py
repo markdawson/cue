@@ -80,7 +80,7 @@ def messages_response(request):
                 {
                     "content_type": "text",
                     "title": "No",
-                    "payload": json.dumps({'confirm_location': True}),
+                    "payload": json.dumps({'confirm_location': False}),
                 },
 
             ]
