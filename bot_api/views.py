@@ -28,9 +28,8 @@ def messages_response(request):
         sender_id = data['entry'][0]['messaging'][0]['sender']['id']
 
         if not data['entry'][0]['messaging'][0].get('message'):
-            postback_confirmed = data['entry'][0]['messaging'][0]['postback']['payload']
-            logger.info(postback_confirmed)
-            if bool(postback_confirmed):
+            postback_confirmed = json.loads(data['entry'][0]['messaging'][0]['postback']['payload'])
+            if postback_confirmed:
                 post_message_to_fb(sender_id, "Great! I'll remind ya!")
             else:
                 post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
@@ -75,7 +74,7 @@ def messages_response(request):
                 post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
             return JsonResponse({'thanks': True})
 
-        location_pattern = "Add\s+my\s+location"
+        location_pattern = "location"
         m = re.search(location_pattern, text)
         if m:
             post_message_to_fb(sender_id, 'teehee')
@@ -258,7 +257,7 @@ def post_list_message_to_fb(to, list_to_display):
                     "elements": elements[:4],
                      "buttons": [
                       {
-                        "title": "None of the above",
+                        "title": "None of these",
                         "type": "postback",
                         "payload": json.dumps(False)
                       }
