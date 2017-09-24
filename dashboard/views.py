@@ -8,9 +8,7 @@ def home_view(request):
     name = data['username']
 
 
-    context = {
-        'user_name': name[::-2]
-
+    content = {
+        'username': name
     }
-
-    return render(request, "dashboard/index.html", context)
+    return render(request, "dashboard/index.html", content)
