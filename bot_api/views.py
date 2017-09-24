@@ -72,7 +72,7 @@ def post_message_to_fb(to, text):
 def get_user_info_from_fb(id):
 
     token = os.environ.get('PAGE_ACCESS_TOKEN')
-    url = "https://graph.facebook.com/v2.6/{}?fields=first_name,last_name,profile_pic&access_token={}".format(id, token)
+    url = "https://graph.facebook.com/v2.6/{}?fields=first_name,last_name,timezone&access_token={}".format(id, token)
     r = requests.get(url)
 
     return json.loads(r.content.decode("utf-8"))
