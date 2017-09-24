@@ -3,12 +3,24 @@ from django.shortcuts import render
 
 def home_view(request):
 
+
     data = request.GET
 
-    name = data['username']
+    name = data.get('username', '')
 
-
-    content = {
-        'username': name
+    context = {
+        'user_name': name[::-1]
     }
-    return render(request, "dashboard/index.html", content)
+
+    return render(request, "dashboard/index.html", context)
+
+
+def user_view(request, name):
+
+    print(name)
+
+    context = {
+        'user_name': name
+    }
+
+    return render(request, "dashboard/index.html", context)
