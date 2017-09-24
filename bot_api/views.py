@@ -6,6 +6,7 @@ import json
 import requests
 import os
 from time import sleep
+import random
 
 logger = logging.getLogger('cue.custom')
 
@@ -58,15 +59,17 @@ def messages_response(request):
                     "id": sender
                 },
                 "message": {
-                    "text": 'TeHe'
+                    "text": 'teehee'
                 }
             }
 
 
 
             r = requests.post(url, json=payload)
-            sleep(1)
-            requests.post(url, json=payload2)
+
+            if random.random() < 0.20:
+                sleep(1)
+                requests.post(url, json=payload2)
             logger.info(text)
             logger.info(sender)
             logger.info(token)
