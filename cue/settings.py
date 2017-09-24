@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Added by Mark
-    'dashboard'
+    'dashboard',
+    'bot_api'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,43 @@ STATICFILES_DIRS = [
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse"
+        }
+    },
+    'formatters': {
+        'verbose': {
+            'format': '[%(levelname)s] %(asctime)s - "%(message)s" %(filename)s '
+        },
+        'simple': {
+            'format': '[%(levelname)s] - %(message)s'
+        },
+    },
+    "handlers": {
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler"
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": 'verbose',
+        }
+    },
+    "loggers": {
+        "cue.custom": {
+            "handlers": ['console'],
+            "level": 'INFO',
+        },
+        "django.request": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+    }
+}
