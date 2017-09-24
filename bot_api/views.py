@@ -289,7 +289,7 @@ def get_nearby_locations(keyword, lat, long):
     query = ("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + str(lat) + "," + str(long)
             + "&keyword=" + str(keyword) + "&rankby=distance" + "&key=" + str(GOOGLE_API_KEY))
 
-    response = urllib.urlopen(query)
+    response = urllib.request.urlopen(query)
     jsonRaw = response.read()
     jsonData = json.loads(jsonRaw)
 
