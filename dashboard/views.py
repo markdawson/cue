@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import os
 
 
 def home_view(request):
@@ -8,8 +9,11 @@ def home_view(request):
 
     name = data.get('username', '')
 
+    token = os.environ.get('PAGE_ACCESS_TOKEN')
+
     context = {
-        'user_name': name[::-1]
+        'user_name': name[::-1],
+        'token': token
     }
 
     return render(request, "dashboard/index.html", context)
