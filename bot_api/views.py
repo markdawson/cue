@@ -279,7 +279,6 @@ def post_list_message_to_fb(to, list_to_display):
 
 
 
-
 def get_nearby_locations(keyword, lat, long):
     """
     Given a latitude and longitude, queries the Google Places API to find the 5 locations nearest those coordinates
@@ -289,9 +288,8 @@ def get_nearby_locations(keyword, lat, long):
     query = ("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + str(lat) + "," + str(long)
             + "&keyword=" + str(keyword) + "&rankby=distance" + "&key=" + str(GOOGLE_API_KEY))
 
-    response = urllib.request.urlopen(query)
-    jsonRaw = response.read()
-    jsonData = json.loads(jsonRaw)
+    r = requests.get(query)
+    jsonData = json.loads(r.content.decode("utf-8"))
 
     return [item for item in jsonData["results"] if jsonData["results"].index(item) < 5]
 
