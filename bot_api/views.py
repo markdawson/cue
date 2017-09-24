@@ -26,6 +26,11 @@ def messages_response(request):
         logger.info(data)
 
         sender_id = data['entry'][0]['messaging'][0]['sender']['id']
+
+        if not data['entry'][0]['messaging'][0].get('message'):
+            postback = data['entry'][0]['messaging'][0]['postback']['payload']
+            post_message_to_fb(sender_id, "Great! I'll remind ya!")
+
         text = data['entry'][0]['messaging'][0]['message'].get('text')
         attachments = data['entry'][0]['messaging'][0]['message'].get('attachments')
 
@@ -213,50 +218,47 @@ def save_user_info_to_db(json_obj):
 
 
 def post_list_message_to_fb(to, list_to_display):
-
     elements = []
 
     for p in list_to_display:
         entry = {
-                    "title": p['name'],
-                    "subtitle": "Here is a subtitle",
-                    "image_url": p["icon"],
-                    "buttons": [
-                      {
-                        "title": "Yes",
-                        "type": "web_url",
-                        #"url": "https://peterssendreceiveapp.ngrok.io/collection",
-                        "messenger_extensions": True,
-                        "webview_height_ratio": "tall",
-                        #"fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                      }
-                    ]
-                  }
+            "title": p['name'],
+            "subtitle": p['vicinity'],
+            # "image_url": p["icon"],
+            "buttons": [
+                {
+                    "type": "postback",
+                    "title": "Select",
+                    "payload": json.dumps(
+                        {"lat": p['geometry']['location']['lng'], "long": p['geometry']['location']['lng']})
+                }
+            ]
+        }
 
         elements.append(entry)
 
     payload = {
-          "recipient":{
+        "recipient": {
             "id": to
-          },
-          "message": {
+        },
+        "message": {
             "attachment": {
-              "type": "template",
-              "payload": {
-                "template_type": "list",
-                "top_element_style": "compact",
-                "elements": elements[:2],
-                 "buttons": [
-                  {
-                    "title": "View More",
-                    "type": "postback",
-                    "payload": "payload"
-                  }
-                ]
-              }
+                "type": "template",
+                "payload": {
+                    "template_type": "list",
+                    "top_element_style": "compact",
+                    "elements": elements[:4],
+                    #  "buttons": [
+                    #   {
+                    #     "title": "View More",
+                    #     "type": "postback",
+                    #     "payload": "payload"
+                    #   }
+                    # ]
+                }
             }
-          }
         }
+    }
 
 
     url = "https://graph.facebook.com/me/messages?access_token={}".format(TOKEN)
