@@ -57,7 +57,7 @@ def messages_response(request):
                 logger.info(nearby_locations)
 
 
-                post_list_message_to_fb(nearby_locations)
+                post_list_message_to_fb(sender_id, nearby_locations)
                 #post_message_to_fb(sender_id, "Great! I'll remind ya!")
 
             else:
