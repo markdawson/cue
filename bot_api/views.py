@@ -15,6 +15,8 @@ import re
 logger = logging.getLogger('cue.custom')
 
 GOOGLE_API_KEY = "AIzaSyAT5yDn3sJ5Fqvm5MTijloIqYm1QeEIREA"
+TOKEN = os.environ.get('PAGE_ACCESS_TOKEN')
+
 
 @csrf_exempt
 def messages_response(request):
@@ -41,6 +43,7 @@ def messages_response(request):
         if quick_reply:
             if json.loads(quick_reply['payload'])['confirm_location']:
 
+
                 # Post a list message here confirming the location
                 event = Event.objects.filter(user=current_user).order_by("-created").first()
                 lat = current_user.home_lat
@@ -48,12 +51,14 @@ def messages_response(request):
 
                 logger.info("{} {} {}".format(event.location_description, lat, long))
 
+                # get_nearyby_locations
                 nearby_locations = get_nearby_locations(keyword=event.location_description, lat=lat, long=long)
 
                 logger.info(nearby_locations)
 
-                post_message_to_fb(sender_id, str(nearby_locations))
-                post_message_to_fb(sender_id, "Great! I'll remind ya!")
+
+                post_list_message_to_fb(nearby_locations)
+                #post_message_to_fb(sender_id, "Great! I'll remind ya!")
 
             else:
                 post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
@@ -209,24 +214,17 @@ def save_user_info_to_db(json_obj):
 
 def post_list_message_to_fb(to, list_to_display):
 
-    payload = {
-          "recipient":{
-            "id":"RECIPIENT_ID"
-          },
-          "message": {
-            "attachment": {
-              "type": "template",
-              "payload": {
-                "template_type": "list",
-                "top_element_style": "compact",
-                "elements": [
-                  {
-                    "title": "Classic T-Shirt Collection",
-                    "subtitle": "See all our colors",
-                    "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",
+    elements = []
+
+    for place in list_to_display:
+        p = place[0]
+        entry = {
+                    "title": p['name'],
+                    "subtitle": "Here is a subtitle",
+                    "image_url": p["icon"],
                     "buttons": [
                       {
-                        "title": "View",
+                        "title": "Yes",
                         "type": "web_url",
                         "url": "https://peterssendreceiveapp.ngrok.io/collection",
                         "messenger_extensions": True,
@@ -234,41 +232,21 @@ def post_list_message_to_fb(to, list_to_display):
                         "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
                       }
                     ]
-                  },
-                  {
-                    "title": "Classic White T-Shirt",
-                    "subtitle": "See all our colors",
-                    "default_action": {
-                      "type": "web_url",
-                      "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-                      "messenger_extensions": True,
-                      "webview_height_ratio": "tall",
-                      "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                    }
-                  },
-                  {
-                    "title": "Classic Blue T-Shirt",
-                    "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
-                    "subtitle": "100% Cotton, 200% Comfortable",
-                    "default_action": {
-                      "type": "web_url",
-                      "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
-                      "messenger_extensions": True,
-                      "webview_height_ratio": "tall",
-                      "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                    },
-                    "buttons": [
-                      {
-                        "title": "Shop Now",
-                        "type": "web_url",
-                        "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
-                        "messenger_extensions": True,
-                        "webview_height_ratio": "tall",
-                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                      }
-                    ]
                   }
-                ],
+
+        elements.append(entry)
+
+    payload = {
+          "recipient":{
+            "id": to
+          },
+          "message": {
+            "attachment": {
+              "type": "template",
+              "payload": {
+                "template_type": "list",
+                "top_element_style": "compact",
+                "elements": elements,
                  "buttons": [
                   {
                     "title": "View More",
@@ -280,6 +258,11 @@ def post_list_message_to_fb(to, list_to_display):
             }
           }
         }
+
+
+    url = "https://graph.facebook.com/me/messages?access_token={}".format(TOKEN)
+    r = requests.post(url, json=payload)
+    return r
 
 
 
