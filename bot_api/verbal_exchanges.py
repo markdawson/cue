@@ -10,7 +10,7 @@ class VerbalExchange:
         self.responses = potential_responses
 
     def does_match(self, text):
-        return any(re.match(p, text, re.IGNORECASE) for p in self.patterns)
+        return any(re.search(p, text, re.IGNORECASE) for p in self.patterns)
 
     def give_rand_response(self):
         return random.choice(self.responses)
@@ -209,9 +209,9 @@ slang_initial_patterns = [
     "jinkies",
     "tbh",
     "jk",
-    "af",
+    "af\s",
     "belonga",
-    "rip",
+    "rip\s",
     "riparoni",
     "fomo",
     "fleek",
