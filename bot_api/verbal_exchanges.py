@@ -17,7 +17,7 @@ help_initial_patterns = [
     "help",
     "halp",
     "how\s+do\s+I",
-    "i\s+am\s+confused",
+    ".+confused",
     "where\s+is\s+the\s+(.+)\s+button",
 	"I\s+want\s+to(.+)but\s+",
     "know\s+how\s+to",
@@ -27,7 +27,7 @@ help_initial_patterns = [
 ]
 
 help_responses = [
-    "My Help functions are still under development - check my FAQ or ask one of my devs!"
+    "My help functions are still under development - check my FAQ or ask one of my devs!"
 ]
 
 exchanges.append(VerbalExchange("Help", help_initial_patterns, help_responses))
@@ -35,7 +35,7 @@ exchanges.append(VerbalExchange("Help", help_initial_patterns, help_responses))
 # Update exchange
 
 weather_initial_patterns = [
-    "the\s+weather",
+    ".+the\s+weather",
     "how\s+.+hot",
     "how\s+.+cold",
     "what.+temperature"
@@ -56,7 +56,7 @@ location_initial_patterns = [
 ]
 
 location_responses = [
-    "To help answer your question, could you tell me where you are?"
+    "To help answer your question, could you share your location with me?"
 ]
 
 exchanges.append(VerbalExchange("Location", location_initial_patterns, location_responses))
@@ -65,7 +65,7 @@ modify_initial_patterns = [
     "change.+date",
     "change.+time",
     "delete.+event",
-    "reschedule",
+    ".+reschedule.+",
 	"change.+location",
     "change.+place"
 ]
@@ -133,8 +133,8 @@ goodbyes_responses = [
 exchanges.append(VerbalExchange("Goodbyes", goodbyes_initial_patterns, goodbyes_responses))
 
 gratitude_initial_responses = [
-    "thanks",
-    "thank you"
+    ".+thanks",
+    ".+thank you"
 ]
 
 gratitude_responses = [
@@ -165,7 +165,9 @@ swearword_initial_patterns = [
 
 swearword_responses = [
     "Please refrain from such vulgar language! I may be powerful but I'm only a few hours old.",
-	"I cannot believe you would say something like that on the internet!!", "Why I NEVER!"
+	"I cannot believe you would say something like that on the internet!!",
+    "Why I NEVER!",
+    "Please refrain!!"
 ]
 
 exchanges.append(VerbalExchange("Swearwords", swearword_initial_patterns, swearword_responses))
@@ -175,7 +177,7 @@ compliments_initial_patterns = [
     "you.+cute",
     "beautiful",
     "wonderful",
-    "amazing",
+    ".+amazing",
     "scrumptuous",
     "excellent",
     "you.+good",
@@ -185,14 +187,15 @@ compliments_initial_patterns = [
     "hot",
     "sexy",
     "bomb",
-    "dope"
+    ".+dope"
+    "sweet.+"
 ]
 
 compliments_responses = [
     "Awwww, thank you!",
     "Omg stop that! I'm digitally blushing.",
-    "Well I think you're pretty CUE-te.",
-	"Omg!! You're totally embarassing me in front of my server!"
+    "Well I think you're pretty CUE-t.",
+	"Omg!! You're totally embarassing me in front of my server."
 ]
 
 exchanges.append(VerbalExchange("Compliments", compliments_initial_patterns, compliments_responses))
