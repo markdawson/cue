@@ -7,7 +7,16 @@ logger = logging.getLogger('cue.custom')
 
 def messages_response(request):
 
+    if request.method == 'POST':
+        logger.info(request.POST)
+        return JsonResponse({'thanks': True})
+
     data = request.GET
+    token = data.get('hub.verify_token')
+
+    if token == 'cueparty':
+        challenge = data.get('hub.challenge')
+        return HttpResponse(challenge)
 
     logger.info(data)
 
@@ -16,19 +25,11 @@ def messages_response(request):
 
 
 def messages_response_verify(request):
+    pass
 
-    if request.method == 'POST':
-        logger.info(request.POST)
 
-    data = request.GET
 
-    token = data.get('hub.verify_token')
 
-    if token == 'cueparty':
-        challenge = data.get('hub.challenge')
-    else:
-        challenge = 'Failure'
 
-    return HttpResponse(challenge)
 
 
