@@ -166,7 +166,7 @@ swearword_initial_patterns = [
 ]
 
 swearword_responses = [
-    "Please refrain from such vulgar language! I may be powerful but I'm only a few hours old.",
+    "Please refrain from such vulgar language! I may be quite powerful but I'm only a few hours old.",
 	"I cannot believe you would say something like that on the internet!!",
     "Why I NEVER!",
     "Please refrain!!"
@@ -222,7 +222,7 @@ slang_responses = [
     "Gosh, your lingo is a little hip for me.",
     "Wow you're sooooo cool!",
     "I bet you're one of the cool kids.",
-	"Wow, I'm plugged in to the internet and I don't even know what that means..."
+	"Wow, I'm plugged into the internet and I don't even know what that means..."
 ]
 
 exchanges.append(VerbalExchange("Slang", slang_initial_patterns, slang_responses))
@@ -248,7 +248,7 @@ insults_responses = [
     "Why I NEVER!",
     "I know you are but what am I~",
     "Yeah, well, I think you're smelly, and I don't even have a nose.",
-	"I forgive you in advance of you're apology because that's just how gracious I am!",
+	"I forgive you in advance of your apology because that's just how gracious I am!",
 	"I cannot believe you could say something like that to somebody on the internet!"
 ]
 
