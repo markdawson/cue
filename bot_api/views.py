@@ -60,7 +60,7 @@ def messages_response(request):
         m = re.match(pattern, text)
         title, time, place = m.groups()
 
-        response = "I'll schedule an event called {} at at {}".format()
+        response = "I'll schedule an event called {} at {} for {}".format(title, place, time)
         post_message_to_fb(sender_id, response)
         quick_replies = [
             {
