@@ -28,8 +28,12 @@ def messages_response(request):
         sender_id = data['entry'][0]['messaging'][0]['sender']['id']
 
         if not data['entry'][0]['messaging'][0].get('message'):
-            postback = data['entry'][0]['messaging'][0]['postback']['payload']
-            post_message_to_fb(sender_id, "Great! I'll remind ya!")
+            postback_confirmed = data['entry'][0]['messaging'][0]['postback']['payload']
+            if postback_confirmed:
+                post_message_to_fb(sender_id, "Great! I'll remind ya!")
+            else:
+                post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
+
             return JsonResponse({'status': 'success'})
 
         text = data['entry'][0]['messaging'][0]['message'].get('text')
@@ -249,13 +253,13 @@ def post_list_message_to_fb(to, list_to_display):
                     "template_type": "list",
                     "top_element_style": "compact",
                     "elements": elements[:4],
-                    #  "buttons": [
-                    #   {
-                    #     "title": "View More",
-                    #     "type": "postback",
-                    #     "payload": "payload"
-                    #   }
-                    # ]
+                     "buttons": [
+                      {
+                        "title": "View More",
+                        "type": "postback",
+                        "payload": json.dumps(False)
+                      }
+                    ]
                 }
             }
         }
