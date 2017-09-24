@@ -58,25 +58,26 @@ def messages_response(request):
         ## * START TEXT INTERPOLATION * ##
         pattern = "cue\s(.+)\sat\s(.+)\sat\s(.+)$"
         m = re.match(pattern, text)
-        title, time, place = m.groups()
+        if m:
+            title, time, place = m.groups()
 
-        response = "I'll schedule an event called {} at {} for {}".format(title, place, time)
-        post_message_to_fb(sender_id, response)
-        quick_replies = [
-            {
-                "content_type":"text",
-                "title": "Yes",
-                "payload": True,
-            },
-            {
-                "content_type": "text",
-                "title": "No",
-                "payload": False,
-            },
+            response = "I'll schedule an event called {} at {} for {}".format(title, place, time)
+            post_message_to_fb(sender_id, response)
+            quick_replies = [
+                {
+                    "content_type":"text",
+                    "title": "Yes",
+                    "payload": True,
+                },
+                {
+                    "content_type": "text",
+                    "title": "No",
+                    "payload": False,
+                },
 
-        ]
-        post_message_to_fb(sender_id, "Does that sound okay?", quick_replies)
-
+            ]
+            post_message_to_fb(sender_id, "Does that sound okay?", quick_replies)
+            return JsonResponse({'thanks': True})
 
 
         if text:
