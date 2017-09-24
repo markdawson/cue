@@ -225,10 +225,10 @@ def post_list_message_to_fb(to, list_to_display):
                       {
                         "title": "Yes",
                         "type": "web_url",
-                        "url": "https://peterssendreceiveapp.ngrok.io/collection",
+                        #"url": "https://peterssendreceiveapp.ngrok.io/collection",
                         "messenger_extensions": True,
                         "webview_height_ratio": "tall",
-                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                        #"fallback_url": "https://peterssendreceiveapp.ngrok.io/"
                       }
                     ]
                   }
