@@ -33,8 +33,8 @@ class Event(models.Model):
 
     confirmed = models.BooleanField(default=False)
     iso_timezone = models.CharField(max_length=200, null=True)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
+    start = models.DateTimeField(null=True)
+    end = models.DateTimeField(null=True)
 
     created = models.DateTimeField(auto_now_add=True)
 
