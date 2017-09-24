@@ -69,13 +69,15 @@ def post_share_location_prompt_to_fb(to):
             "id": to
         },
         "message": {
-            "text": "To help you with event planning, could you tell me where you are?"
+            "text": "To help you with event planning, could you tell me where you are?",
+            "quick_replies": [
+                {
+                    "content_type": "location"
+                }
+            ]
         },
-        "quick_replies": [
-            {
-                "content_type": "location"
-            }
-        ]
+
+
     }
 
     r = requests.post(url, json=payload)
