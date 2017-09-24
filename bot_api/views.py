@@ -5,6 +5,7 @@ import logging
 import json
 import requests
 import os
+from time import sleep
 
 logger = logging.getLogger('cue.custom')
 
@@ -19,7 +20,7 @@ def messages_response(request):
 
 
         sender = data['entry'][0]['messaging'][0]['sender']['id']
-        text = "Don't even trip dog." #data.get('text')
+        text = data['entry'][0]['messaging'][0]['message']['text']
 
         # payload = {
         #     "recipient": {
@@ -50,7 +51,20 @@ def messages_response(request):
             }
         }
 
+        payload2 = {
+            "recipient": {
+                "id": sender
+            },
+            "message": {
+                "text": 'tehe'
+            }
+        }
+
+
+
         r = requests.post(url, json=payload)
+        sleep(1)
+        request.post(url, json=payload2)
         logger.info(text)
         logger.info(sender)
         logger.info(token)
