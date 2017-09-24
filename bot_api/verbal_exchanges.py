@@ -44,7 +44,7 @@ weather_initial_patterns = [
 weather_responses = [
    # "The weather is ",
    # "The temperature is ",
-    "To help answer your question, could you tell me where you are?"
+    #"To help answer your question, could you tell me where you are?"
 ]
 
 exchanges.append(VerbalExchange("Weather", weather_initial_patterns, weather_responses))
