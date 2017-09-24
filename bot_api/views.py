@@ -32,7 +32,7 @@ def messages_response(request):
 
         url = "https://graph.facebook.com/v2.6/me/messages?access_token={}".format(token)
 
-        requests.post(url, data=payload)
+        requests.post(url, json=payload)
         return JsonResponse({'thanks': True})
 
     else:
