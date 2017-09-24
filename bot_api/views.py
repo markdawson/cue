@@ -31,7 +31,9 @@ def messages_response(request):
 
         if text:
             logger.info(post_message_to_fb(sender_id, text))
-            if random.random() < 0.30:
+            dice_roll = random.random()
+            logger.info("teehee dice roll: {}".format(dice_roll))
+            if dice_roll < 0.30:
                 sleep(1)
                 requests.post(sender_id, 'teehee')
 
