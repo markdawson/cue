@@ -2,12 +2,19 @@ from django.db import models
 
 
 class User(models.Model):
+
     user_id = models.CharField(max_length=100)
+    iso_timezone = models.CharField(max_length=200)
+
 
 class Event(models.Model):
 
-    user_id = models.CharField(max_length=100)
+    user = models.CharField(max_length=100)
 
+    title = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
-    datetime = models.DateTimeField()
+
+    iso_timezone = models.CharField(max_length=200)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
 

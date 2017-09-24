@@ -1,5 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from .models import User
 
 import logging
 import json
@@ -23,7 +24,7 @@ def messages_response(request):
 
         if text:
             logger.info(post_message_to_fb(sender, text))
-            if random.random() < 0.20:
+            if random.random() < 0.30:
                 sleep(1)
                 requests.post(sender, 'teehee')
 
@@ -58,8 +59,15 @@ def post_message_to_fb(to, text):
     return r
 
 
+def get_user_info_from_fb(id):
+
+    token = os.environ.get('PAGE_ACCESS_TOKEN')
+    url = "https://graph.facebook.com/v2.6/{}?fields=first_name,last_name,profile_pic&access_token={}".format(id, token)
+    r = requests.get(url)
+
+    return json.loads(r.content.decode("utf-8"))
 
 
-
-
+def save_user_info_to_db(json_obj):
+    pass
 
