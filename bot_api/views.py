@@ -33,6 +33,7 @@ def messages_response(request):
         url = "https://graph.facebook.com/v2.6/me/messages?access_token={}".format(token)
 
         r = requests.post(url, json=payload)
+        logger.info(url)
         logger.info(r.content)
 
         return JsonResponse({'thanks': True})
