@@ -2,6 +2,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 import logging
+import json
 
 logger = logging.getLogger('cue.custom')
 
@@ -10,8 +11,8 @@ logger = logging.getLogger('cue.custom')
 def messages_response(request):
 
     if request.method == 'POST':
-        logger.info(request.POST)
-        logger.info(request.body)
+        data = json.loads(request.body)
+        logger.info(data)
         return JsonResponse({'thanks': True})
 
     else:
