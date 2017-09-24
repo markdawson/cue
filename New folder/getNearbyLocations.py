@@ -1,6 +1,6 @@
-import requests
 import urllib
 import json
+from pprint import pprint
 
 API_KEY = "AIzaSyAT5yDn3sJ5Fqvm5MTijloIqYm1QeEIREA"
 
@@ -19,5 +19,6 @@ def getNearbyLocations(keyword, latitude, longitude):
 
 	return [item for item in jsonData["results"] if jsonData["results"].index(item) < 5]
 
-# print getNearbyLocations("hospital", 29.707836, -95.401563)
+
+pprint(getNearbyLocations("hospital", 29.707836, -95.401563))
 
