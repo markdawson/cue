@@ -13,14 +13,15 @@ def messages_response(request):
         logger.info(request.POST)
         return JsonResponse({'thanks': True})
 
-    data = request.GET
-    token = data.get('hub.verify_token')
+    else:
+        data = request.GET
+        token = data.get('hub.verify_token')
 
-    if token == 'cueparty':
-        challenge = data.get('hub.challenge')
-        return HttpResponse(challenge)
+        if token == 'cueparty':
+            challenge = data.get('hub.challenge')
+            return HttpResponse(challenge)
 
-    logger.info(data)
+        #logger.info(data)
 
 
     return JsonResponse({'status': 'success'})
