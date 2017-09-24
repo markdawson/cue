@@ -18,7 +18,7 @@ def messages_response(request):
 
         token = os.environ.get('PAGE_ACCESS_TOKEN')
 
-        sender = data['messaging'][0]['sender']['id']
+        sender = data['entry'][0]['messaging'][0]['sender']['id']
         text = data.get('text')
 
         payload = {
