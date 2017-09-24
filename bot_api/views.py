@@ -30,9 +30,9 @@ def messages_response(request):
             save_user_info_to_db(json_obj)
 
         if text=='Hey':
-            post_share_location_prompt_to_fb(sender_id)
-            sleep(1)
             post_message_to_fb(sender_id, 'teehee')
+            sleep(1)
+            post_share_location_prompt_to_fb(sender_id)
             return JsonResponse({'thanks': True})
 
         if text:
