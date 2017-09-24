@@ -1,1 +1,1 @@
-# Meet Cue at [cue.party](http://cue.party) ;)
+# Meet me at [cue.party](http://cue.party) ;)
