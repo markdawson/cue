@@ -46,7 +46,11 @@ def messages_response(request):
                 lat = current_user.home_lat
                 long = current_user.home_long
 
+                logger.info("{} {} {}".format(event.title, lat, long))
+
                 nearby_locations = get_nearby_locations(keyword=event.title, lat=lat, long=long)
+
+                logger.info(nearby_locations)
 
                 post_message_to_fb(sender_id, str(nearby_locations))
 
@@ -76,7 +80,7 @@ def messages_response(request):
 
 
         ## * START TEXT INTERPOLATION * ##
-        event_pattern = "cue\s(.+)\sat\s(.+)\sat\s(.+)\s"
+        event_pattern = "cue\s(.+)\s+at\s+(.+)\s+at\s+(.+)\s"
         m = re.match(event_pattern, text, re.IGNORECASE)
         if m:
             title, time, place = m.groups()
