@@ -3,7 +3,7 @@ import logging
 import json
 import requests
 
-def parse_message(request):
+def parse_event(request):
     data = json.loads(request.body)
     text = data['entry'][0]['messaging'][0]['message'].get('text')
 
