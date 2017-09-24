@@ -15,8 +15,6 @@ logger = logging.getLogger('cue.custom')
 
 GOOGLE_API_KEY = "AIzaSyAT5yDn3sJ5Fqvm5MTijloIqYm1QeEIREA"
 
-
-
 @csrf_exempt
 def messages_response(request):
 
@@ -38,7 +36,7 @@ def messages_response(request):
             save_user_info_to_db(json_obj)
 
         if quick_reply:
-            if bool(json.loads(quick_reply['payload'])['confirm_location']):
+            if json.loads(quick_reply['payload'])['confirm_location']:
                 post_message_to_fb(sender_id, "Great! I'll remind ya!")
             else:
                 post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
@@ -64,8 +62,8 @@ def messages_response(request):
 
 
         ## * START TEXT INTERPOLATION * ##
-        pattern = "cue\s(.+)\sat\s(.+)\sat\s(.+)$"
-        m = re.match(pattern, text)
+        event_pattern = "cue\s(.+)\sat\s(.+)\sat\s(.+)\s"
+        m = re.match(event_pattern, text, re.IGNORECASE)
         if m:
             title, time, place = m.groups()
 
@@ -178,6 +176,16 @@ def save_user_info_to_db(json_obj):
     )
 
     return True
+
+
+def match_against_patterns(text):
+
+
+    event_pattern = "cue\s(.+)\sat\s(.+)\sat\s(.+)\s"
+
+    patterns = [event_pattern]
+
+
 
 
 def getNearbyLocations(keyword, latitude, longitude):
