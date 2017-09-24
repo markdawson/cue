@@ -30,6 +30,7 @@ def messages_response(request):
         if not data['entry'][0]['messaging'][0].get('message'):
             postback = data['entry'][0]['messaging'][0]['postback']['payload']
             post_message_to_fb(sender_id, "Great! I'll remind ya!")
+            return JsonResponse({'status': 'success'})
 
         text = data['entry'][0]['messaging'][0]['message'].get('text')
         attachments = data['entry'][0]['messaging'][0]['message'].get('attachments')
