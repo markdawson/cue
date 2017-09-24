@@ -16,7 +16,7 @@ def messages_response(request):
         data = json.loads(request.body)
         logger.info(data)
 
-        token = os.environ.get('PAGE_ACCESS_TOKEN')
+
 
         sender = data['entry'][0]['messaging'][0]['sender']['id']
         text = data.get('text')
@@ -30,9 +30,11 @@ def messages_response(request):
             }
         }
 
+        token = os.environ.get('PAGE_ACCESS_TOKEN')
         url = "https://graph.facebook.com/v2.6/me/messages?access_token={}".format(token)
 
         r = requests.post(url, json=payload)
+        logger.info(token)
         logger.info(url)
         logger.info(r.content)
 
