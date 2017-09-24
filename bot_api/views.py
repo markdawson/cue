@@ -1,10 +1,12 @@
 from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 import logging
 
 logger = logging.getLogger('cue.custom')
 
 
-
+@csrf_exempt
 def messages_response(request):
 
     if request.method == 'POST':
