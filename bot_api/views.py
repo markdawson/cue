@@ -67,12 +67,12 @@ def messages_response(request):
                 {
                     "content_type":"text",
                     "title": "Yes",
-                    "payload": {"confirm_location": True},
+                    "payload": json.dumps({'confirm_location': True}),
                 },
                 {
                     "content_type": "text",
                     "title": "No",
-                    "payload": {"confirm_location": True},
+                    "payload": json.dumps({'confirm_location': True}),
                 },
 
             ]
