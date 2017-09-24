@@ -9,6 +9,7 @@ import os
 from time import sleep
 import random
 import urllib
+import re
 
 logger = logging.getLogger('cue.custom')
 
@@ -34,7 +35,8 @@ def messages_response(request):
             json_obj = get_user_info_from_fb(sender_id)
             save_user_info_to_db(json_obj)
 
-        if text=='Hey':
+
+        if text=='hey':
             post_message_to_fb(sender_id, 'teehee')
             sleep(1)
             post_share_location_prompt_to_fb(sender_id)
@@ -52,12 +54,36 @@ def messages_response(request):
                 post_message_to_fb(sender_id, "Thank ya! I can help you find events near you now.")
             return JsonResponse({'thanks': True})
 
+
+        ## * START TEXT INTERPOLATION * ##
+        pattern = "cue\s(.+)\sat\s(.+)\sat\s(.+)$"
+        m = re.match(pattern, text)
+        title, time, place = m.groups()
+
+        response = "I'll schedule an event called {} at at {}".format()
+        post_message_to_fb(sender_id, response)
+        quick_replies = [
+            {
+                "content_type":"text",
+                "title": "Yes",
+                "payload": True,
+            },
+            {
+                "content_type": "text",
+                "title": "No",
+                "payload": False,
+            },
+
+        ]
+        post_message_to_fb(sender_id, "Does that sound okay?", quick_replies)
+
+
+
         if text:
             logger.info(post_message_to_fb(sender_id, text))
             dice_roll = random.random()
             logger.info("teehee dice roll: {}".format(dice_roll))
             if dice_roll < 0.30:
-                sleep(1)
                 post_message_to_fb(sender_id, 'teehee')
 
         return JsonResponse({'thanks': True})
@@ -101,8 +127,10 @@ def post_share_location_prompt_to_fb(to):
     return r
 
 
-def post_message_to_fb(to, text):
+def post_message_to_fb(to, text, quick_replies=None):
 
+
+    sleep(0.5)
     token = os.environ.get('PAGE_ACCESS_TOKEN')
     url = "https://graph.facebook.com/v2.6/me/messages?access_token={}".format(token)
 
@@ -114,6 +142,9 @@ def post_message_to_fb(to, text):
             "text": text
         }
     }
+
+    if quick_replies:
+        payload['message']['quick_replies'] = quick_replies
 
     r = requests.post(url, json=payload)
     return r
