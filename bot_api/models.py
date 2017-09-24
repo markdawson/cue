@@ -1,10 +1,12 @@
 from django.db import models
 
 
-class User(models.Model):
+class CueUser(models.Model):
 
     user_id = models.CharField(max_length=100)
     iso_timezone = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
 
 
 class Event(models.Model):

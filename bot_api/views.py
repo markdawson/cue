@@ -1,6 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import User
+from .models import CueUser
 
 import logging
 import json
@@ -19,16 +19,26 @@ def messages_response(request):
         data = json.loads(request.body)
         logger.info(data)
 
-        sender = data['entry'][0]['messaging'][0]['sender']['id']
+        sender_id = data['entry'][0]['messaging'][0]['sender']['id']
         text = data['entry'][0]['messaging'][0]['message'].get('text')
 
+        try:
+            sender = CueUser.objects.get(user_id=sender_id)
+
+        except CueUser.DoesNotExist:
+            json_obj = get_user_info_from_fb(sender_id)
+            save_user_info_to_db(json_obj)
+
         if text:
-            logger.info(post_message_to_fb(sender, text))
+            logger.info(post_message_to_fb(sender_id, text))
             if random.random() < 0.30:
                 sleep(1)
-                requests.post(sender, 'teehee')
+                requests.post(sender_id, 'teehee')
 
         return JsonResponse({'thanks': True})
+
+
+    ####################################################################################
 
     else: # This logic is for verifying the inital api
         data = request.GET
@@ -69,5 +79,13 @@ def get_user_info_from_fb(id):
 
 
 def save_user_info_to_db(json_obj):
-    pass
+
+    CueUser.objects.create(
+        user_id=json_obj['id'],
+        iso_timezone=json_obj['timezone'],
+        first_name=json_obj['first_name'],
+        last_name=json_obj['last_name']
+    )
+
+    return True
 
