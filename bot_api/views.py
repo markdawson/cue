@@ -36,7 +36,7 @@ def messages_response(request):
             json_obj = get_user_info_from_fb(sender_id)
             save_user_info_to_db(json_obj)
 
-        current_user = CueUser.objects.get(sender_id)
+        current_user = CueUser.objects.get(user_id=sender_id)
 
         if quick_reply:
             if json.loads(quick_reply['payload'])['confirm_location']:
