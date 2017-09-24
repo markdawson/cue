@@ -261,6 +261,7 @@ def post_list_message_to_fb(to, list_to_display):
 
     url = "https://graph.facebook.com/me/messages?access_token={}".format(TOKEN)
     r = requests.post(url, json=payload)
+    logger.info(r)
     return r
 
 
