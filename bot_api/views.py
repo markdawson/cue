@@ -28,6 +28,8 @@ def messages_response(request):
         text = data['entry'][0]['messaging'][0]['message'].get('text')
         attachments = data['entry'][0]['messaging'][0]['message'].get('attachments')
 
+        quick_reply = data['entry'][0]['messaging'][0]['message'].get("quick_reply")
+
         try:
             sender = CueUser.objects.get(user_id=sender_id)
 
@@ -35,6 +37,12 @@ def messages_response(request):
             json_obj = get_user_info_from_fb(sender_id)
             save_user_info_to_db(json_obj)
 
+        if quick_reply:
+            if quick_reply['payload']['confirmed_location']:
+                post_message_to_fb(sender_id, "Great! I'll remind ya!")
+            else:
+                post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
+            return JsonResponse({'thanks': True})
 
         if text=='hey':
             post_message_to_fb(sender_id, 'teehee')
