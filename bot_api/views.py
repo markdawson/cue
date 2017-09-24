@@ -29,7 +29,7 @@ def messages_response(request):
 
         if not data['entry'][0]['messaging'][0].get('message'):
             postback_confirmed = data['entry'][0]['messaging'][0]['postback']['payload']
-            if postback_confirmed:
+            if bool(postback_confirmed):
                 post_message_to_fb(sender_id, "Great! I'll remind ya!")
             else:
                 post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
@@ -255,7 +255,7 @@ def post_list_message_to_fb(to, list_to_display):
                     "elements": elements[:4],
                      "buttons": [
                       {
-                        "title": "View More",
+                        "title": "None of the above",
                         "type": "postback",
                         "payload": json.dumps(False)
                       }
