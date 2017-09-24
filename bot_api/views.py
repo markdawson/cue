@@ -35,7 +35,7 @@ def messages_response(request):
             logger.info("teehee dice roll: {}".format(dice_roll))
             if dice_roll < 0.30:
                 sleep(1)
-                requests.post(sender_id, 'teehee')
+                post_message_to_fb(sender_id, 'teehee')
 
         return JsonResponse({'thanks': True})
 
