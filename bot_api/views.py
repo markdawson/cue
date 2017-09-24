@@ -45,6 +45,7 @@ def messages_response(request):
                 u.home_lat = lat
                 u.home_long = long
                 u.save()
+                post_message_to_fb(sender_id, "Thank ya! I can help you find events near you now.")
             return JsonResponse({'thanks': True})
 
         if text:
