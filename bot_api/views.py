@@ -97,7 +97,7 @@ def messages_response(request):
 
             ]
             post_message_to_fb(sender_id, "Does that sound okay?", quick_replies)
-            tentative_event = Event(user=CueUser.objects.get(sender_id),
+            tentative_event = Event(user=CueUser.objects.get(user_id=sender_id),
                                     title=title, start=time, confirmed=False)
             tentative_event.save()
 
