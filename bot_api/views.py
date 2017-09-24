@@ -1,5 +1,6 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from .verbal_exchanges import exchanges as EXCHANGES
 from .models import CueUser
 
 import logging
@@ -85,6 +86,10 @@ def messages_response(request):
             post_message_to_fb(sender_id, "Does that sound okay?", quick_replies)
             return JsonResponse({'thanks': True})
 
+        for exchange in EXCHANGES:
+            if exchange.does_match(text):
+                post_message_to_fb(sender_id, exchange.give_rand_response())
+                return JsonResponse({'thanks': True})
 
         if text:
             logger.info(post_message_to_fb(sender_id, text))
