@@ -61,7 +61,7 @@ def messages_response(request):
         if m:
             title, time, place = m.groups()
 
-            response = "I'll schedule an event called {} at {} for {}".format(title, place, time)
+            response = """I'll schedule an event called "{}" at {} for {}.""".format(title, place, time)
             post_message_to_fb(sender_id, response)
             quick_replies = [
                 {
