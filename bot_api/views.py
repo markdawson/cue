@@ -245,7 +245,7 @@ def post_list_message_to_fb(to, list_to_display):
               "payload": {
                 "template_type": "list",
                 "top_element_style": "compact",
-                "elements": elements,
+                "elements": elements[:2],
                  "buttons": [
                   {
                     "title": "View More",
