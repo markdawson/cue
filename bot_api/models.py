@@ -14,6 +14,15 @@ class CueUser(models.Model):
         return self.first_name + ' ' + self.last_name
 
 
+class Place(models.Model):
+
+    google_id = models.CharField(max_length=200)
+    address = models.TextField()
+
+    def __str__(self):
+        return self.user + ': ' + self.title
+
+
 class Event(models.Model):
 
     user = models.ForeignKey(CueUser, related_name="usergit")
@@ -29,11 +38,5 @@ class Event(models.Model):
         return self.user + ': ' + self.title
 
 
-class Place(models.Model):
 
-    google_id = models.CharField(max_length=200)
-    address = models.TextField()
-
-    def __str__(self):
-        return self.user + ': ' + self.title
 
