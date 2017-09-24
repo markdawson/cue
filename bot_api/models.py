@@ -16,14 +16,23 @@ class CueUser(models.Model):
 
 class Event(models.Model):
 
-    user = models.CharField(max_length=100)
+    user = models.ForeignKey(CueUser, related_name="usergit")
 
     title = models.CharField(max_length=200)
-    location = models.CharField(max_length=200)
+    location = models.ForeignKey(Place, related_name="place")
 
     iso_timezone = models.CharField(max_length=200)
     start = models.DateTimeField()
     end = models.DateTimeField()
+
+    def __str__(self):
+        return self.user + ': ' + self.title
+
+
+class Place(models.Model):
+
+    google_id = models.CharField(max_length=200)
+    address = models.TextField()
 
     def __str__(self):
         return self.user + ': ' + self.title
