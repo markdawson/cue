@@ -30,6 +30,7 @@ class Event(models.Model):
 
     title = models.CharField(max_length=200)
     location = models.ForeignKey(Place, related_name="place", null=True)
+    location_description = models.CharField(max_length=200, null=True)
 
     confirmed = models.BooleanField(default=False)
     iso_timezone = models.CharField(max_length=200, null=True)

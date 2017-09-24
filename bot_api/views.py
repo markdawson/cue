@@ -46,9 +46,9 @@ def messages_response(request):
                 lat = current_user.home_lat
                 long = current_user.home_long
 
-                logger.info("{} {} {}".format(event.title, lat, long))
+                logger.info("{} {} {}".format(event.location_description, lat, long))
 
-                nearby_locations = get_nearby_locations(keyword=event.title, lat=lat, long=long)
+                nearby_locations = get_nearby_locations(keyword=event.location_description, lat=lat, long=long)
 
                 logger.info(nearby_locations)
 
@@ -80,7 +80,7 @@ def messages_response(request):
 
 
         ## * START TEXT INTERPOLATION * ##
-        event_pattern = "cue\s(.+)\s+at\s+(.+)\s+at\s+(.+)\s"
+        event_pattern = "cue\s(.+)\s+at\s+(.+)\s+at\s+(.+)"
         m = re.match(event_pattern, text, re.IGNORECASE)
         if m:
             title, time, place = m.groups()
@@ -102,7 +102,8 @@ def messages_response(request):
             ]
             post_message_to_fb(sender_id, "Does that sound okay?", quick_replies)
             tentative_event = Event(user=CueUser.objects.get(user_id=sender_id),
-                                    title=title, confirmed=False)
+                                    title=title, location_description=place,
+                                    confirmed=False)
             tentative_event.save()
 
             return JsonResponse({'thanks': True})
