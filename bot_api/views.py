@@ -38,7 +38,7 @@ def messages_response(request):
             save_user_info_to_db(json_obj)
 
         if quick_reply:
-            if quick_reply['payload']['confirm_location']:
+            if json.loads(quick_reply['payload'])['confirm_location']:
                 post_message_to_fb(sender_id, "Great! I'll remind ya!")
             else:
                 post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
