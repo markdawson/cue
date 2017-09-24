@@ -29,6 +29,12 @@ def messages_response(request):
             json_obj = get_user_info_from_fb(sender_id)
             save_user_info_to_db(json_obj)
 
+        if text=='Hey':
+            post_share_location_prompt_to_fb(sender_id)
+            sleep(1)
+            post_message_to_fb(sender_id, 'teehee')
+            return JsonResponse({'thanks': True})
+
         if text:
             logger.info(post_message_to_fb(sender_id, text))
             dice_roll = random.random()
@@ -51,6 +57,29 @@ def messages_response(request):
             return HttpResponse(challenge)
 
     return JsonResponse({'status': 'success'})
+
+
+def post_share_location_prompt_to_fb(to):
+
+    token = os.environ.get('PAGE_ACCESS_TOKEN')
+    url = "https://graph.facebook.com/v2.6/me/messages?access_token={}".format(token)
+
+    payload = {
+        "recipient": {
+            "id": to
+        },
+        "message": {
+            "text": "To help you with event planning, could you tell me where you are?"
+        },
+        "quick_replies": [
+            {
+                "content_type": "location"
+            }
+        ]
+    }
+
+    r = requests.post(url, json=payload)
+    return r
 
 
 def post_message_to_fb(to, text):
@@ -90,4 +119,6 @@ def save_user_info_to_db(json_obj):
     )
 
     return True
+
+
 
