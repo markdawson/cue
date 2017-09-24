@@ -16,6 +16,7 @@ class CueUser(models.Model):
 
 class Place(models.Model):
 
+    name = models.CharField(max_length=200, null=True)
     google_id = models.CharField(max_length=200)
     address = models.TextField()
 
@@ -30,9 +31,12 @@ class Event(models.Model):
     title = models.CharField(max_length=200)
     location = models.ForeignKey(Place, related_name="place")
 
+    confirmed = models.BooleanField(default=False)
     iso_timezone = models.CharField(max_length=200)
     start = models.DateTimeField()
     end = models.DateTimeField()
+
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user + ': ' + self.title

@@ -12,9 +12,9 @@ class VerbalExchange:
     def does_match(self, text):
         return any(re.match(p, text, re.IGNORECASE) for p in self.patterns)
 
-
     def give_rand_response(self):
         return random.choice(self.responses)
+
 
 # Help exchange
 

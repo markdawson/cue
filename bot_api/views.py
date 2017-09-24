@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .verbal_exchanges import exchanges as EXCHANGES
-from .models import CueUser
+from .models import CueUser, Event
 
 import logging
 import json
@@ -36,8 +36,21 @@ def messages_response(request):
             json_obj = get_user_info_from_fb(sender_id)
             save_user_info_to_db(json_obj)
 
+        current_user = CueUser.objects.get(sender_id)
+
         if quick_reply:
             if json.loads(quick_reply['payload'])['confirm_location']:
+
+                # Post a list message here confirming the location
+                event = Event.objects.filter(user=current_user).order_by("-created").first()
+                lat = current_user.home_lat
+                long = current_user.home_long
+
+                nearby_locations = get_nearby_locations(keyword=event.title, lat=lat, long=long)
+
+                post_message_to_fb(sender_id, str(nearby_locations))
+
+
                 post_message_to_fb(sender_id, "Great! I'll remind ya!")
             else:
                 post_message_to_fb(sender_id, "I'm still learning ¯\_(ツ)_/¯")
@@ -84,11 +97,18 @@ def messages_response(request):
 
             ]
             post_message_to_fb(sender_id, "Does that sound okay?", quick_replies)
+            tentative_event = Event(user=CueUser.objects.get(sender_id),
+                                    title=title, start=time, confirmed=False)
+            tentative_event.save()
+
             return JsonResponse({'thanks': True})
 
         for exchange in EXCHANGES:
             if exchange.does_match(text):
                 post_message_to_fb(sender_id, exchange.give_rand_response())
+                dice_roll = random.random()
+                if dice_roll < 0.30:
+                    post_message_to_fb(sender_id, 'teehee')
                 return JsonResponse({'thanks': True})
 
         if text:
@@ -182,23 +202,91 @@ def save_user_info_to_db(json_obj):
     return True
 
 
-def match_against_patterns(text):
+
+def post_list_message_to_fb(to, list_to_display):
+
+    payload = {
+          "recipient":{
+            "id":"RECIPIENT_ID"
+          },
+          "message": {
+            "attachment": {
+              "type": "template",
+              "payload": {
+                "template_type": "list",
+                "top_element_style": "compact",
+                "elements": [
+                  {
+                    "title": "Classic T-Shirt Collection",
+                    "subtitle": "See all our colors",
+                    "image_url": "https://peterssendreceiveapp.ngrok.io/img/collection.png",
+                    "buttons": [
+                      {
+                        "title": "View",
+                        "type": "web_url",
+                        "url": "https://peterssendreceiveapp.ngrok.io/collection",
+                        "messenger_extensions": True,
+                        "webview_height_ratio": "tall",
+                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "Classic White T-Shirt",
+                    "subtitle": "See all our colors",
+                    "default_action": {
+                      "type": "web_url",
+                      "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
+                      "messenger_extensions": True,
+                      "webview_height_ratio": "tall",
+                      "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                    }
+                  },
+                  {
+                    "title": "Classic Blue T-Shirt",
+                    "image_url": "https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png",
+                    "subtitle": "100% Cotton, 200% Comfortable",
+                    "default_action": {
+                      "type": "web_url",
+                      "url": "https://peterssendreceiveapp.ngrok.io/view?item=101",
+                      "messenger_extensions": True,
+                      "webview_height_ratio": "tall",
+                      "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                    },
+                    "buttons": [
+                      {
+                        "title": "Shop Now",
+                        "type": "web_url",
+                        "url": "https://peterssendreceiveapp.ngrok.io/shop?item=101",
+                        "messenger_extensions": True,
+                        "webview_height_ratio": "tall",
+                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                      }
+                    ]
+                  }
+                ],
+                 "buttons": [
+                  {
+                    "title": "View More",
+                    "type": "postback",
+                    "payload": "payload"
+                  }
+                ]
+              }
+            }
+          }
+        }
 
 
-    event_pattern = "cue\s(.+)\sat\s(.+)\sat\s(.+)\s"
-
-    patterns = [event_pattern]
 
 
-
-
-def getNearbyLocations(keyword, latitude, longitude):
+def get_nearby_locations(keyword, lat, long):
     """
     Given a latitude and longitude, queries the Google Places API to find the 5 locations nearest those coordinates
     matching the given keyword.
     """
 
-    query = ("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + str(latitude) + "," + str(longitude)
+    query = ("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + str(lat) + "," + str(long)
             + "&keyword=" + str(keyword) + "&rankby=distance" + "&key=" + str(GOOGLE_API_KEY))
 
     response = urllib.urlopen(query)
