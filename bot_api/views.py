@@ -216,8 +216,7 @@ def post_list_message_to_fb(to, list_to_display):
 
     elements = []
 
-    for place in list_to_display:
-        p = place[0]
+    for p in list_to_display:
         entry = {
                     "title": p['name'],
                     "subtitle": "Here is a subtitle",
