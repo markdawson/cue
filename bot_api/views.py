@@ -41,16 +41,17 @@ def messages_response(request):
         token = 'EAAEZBsQCC0fwBACo4UPYZCVd74pQcm2VkorSaDoQJ143SxMUPM8zx6D102UijrhGYTCpZAYRvZBhKdNCen4SO8unytSlAkjM3GygIPwtO1ZBokEcPMsK2ZCubLi0drQbZBDuqyvgfvol5MriB66bPxHaI1dzK7AjqZAkmc5nkZBbrVQZDZD'
         url = "https://graph.facebook.com/v2.6/me/messages?access_token={}".format(token)
 
-        payload = {
+        payload = json.dumps({
             "recipient": {
                 "id": sender
             },
             "message": {
                 "text": text
             }
-        }
+        })
 
-        r = requests.post(url, json=payload)
+        header = {"Content-Type": "application/json"}
+        r = requests.post(url, data=payload, header=header)
         logger.info(token)
         logger.info(url)
         logger.info(r.content)
