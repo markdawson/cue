@@ -4,34 +4,100 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <title>Cue Party</title>
     <style>
         body {background-color : #2196f3}
+
+        img.hoverImages {
+            margin:20px;
+            padding:3px;
+            -webkit-transition: margin 0.5s ease-out;
+            -moz-transition: margin 0.5s ease-out;
+            -o-transition: margin 0.5s ease-out;
+        }
+
+        img.hoverImages:hover {
+            cursor:pointer;
+            margin-top: 5px;
+        }
+
+        img {
+        display: block;
+        margin: auto;
+        width: 30%;
+        padding: 0;
+        }
+
+        #header {
+        font-family : 'Verdana';
+        font-size: 500%;
+        color: #FFFFFF;
+        font-weight: bold;
+        }
+        .outer {
+            width: 1px; /* Or zero, or something very small */
+            margin: auto;
+            width: 240px
+        }
+
+        #footer {
+        background: #BBDEFB;
+        width: 100%;
+        font-family: 'Verdana';
+        font-size: 120%;
+        vertical-align: middle;
+        line-height: 50px;
+        color: white;
+        }
+
+        #footer2 {
+        float: right;
+        }
+
+        #footer1 {
+        float: left;
+        padding-left: 1.8em;
+        }
+
+        .foot {
+        display: inline;
+        float: right;
+        width: 20%;}
     </style>
 </head>
 <body>
 
-<img src='images/cue_trans.png' style="width:304px;height:228px;">
+<br>
 
-    <section>
-        <br>
-        <div class="align-self-center"></div>
-        <div class="container">
-            <h1>welcum {{ username }} ----- partayyyyy ;)</h1>
-            <br>
-            <div class="align-self-center">
-                <div class="circle">
-                </div>
-            </div>
-        </div>
-    </section>
-    <div id="footer">
-		 <p style="position: relative; bottom:0; width:100%; text-align: center">
-				Group: cueT  <a href="http://www.rice.edu">Rice University Home</a>,
-            </p>
-
-
+<a href = "http:/m.me/cueparty">
+<div id = "image">
+    <center>
+    <img class = "hoverImages" src='images/cue_trans_cropped.png'>
+    </center>
+</div>
+</a>
+<br>
+<div class = "outer">
+    <div id = "header">
+        C U E
     </div>
+</div>
+<br>
+<br>
+<br>
+<div id ="footer">
+
+    <div id = "footer1">
+        TEAM cue-T
+    </div>
+
+    <div id = "footer2">
+        Designed for
+        <img class = "foot" src = 'images/hackricelogo.svg'>
+    </div>
+<div style = "clear: both;"></div>
+</div>
+
+
 </body>
 </html>
