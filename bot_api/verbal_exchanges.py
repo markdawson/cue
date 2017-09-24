@@ -17,7 +17,6 @@ help_initial_patterns = [
     "help",
     "halp",
     "how\s+do\s+I",
-    "help",
     "i\s+am\s+confused",
     "where\s+is\s+the\s+(.+)\s+button",
 	"I\s+want\s+to(.+)but\s+",
@@ -28,7 +27,7 @@ help_initial_patterns = [
 ]
 
 help_responses = [
-    "Here's a list of "
+    "My Help functions are still under development - check my FAQ or ask one of my devs!"
 ]
 
 exchanges.append(VerbalExchange("Help", help_initial_patterns, help_responses))
@@ -43,8 +42,9 @@ weather_initial_patterns = [
 ]
 
 weather_responses = [
-    "The weather is ",
-    "The temperature is ",
+   # "The weather is ",
+   # "The temperature is ",
+    "To help answer your question, could you tell me where you are?"
 ]
 
 exchanges.append(VerbalExchange("Weather", weather_initial_patterns, weather_responses))
@@ -62,12 +62,12 @@ location_responses = [
 exchanges.append(VerbalExchange("Location", location_initial_patterns, location_responses))
 
 modify_initial_patterns = [
-    "change\s+date",
-    "change\s+time",
-    "delete\s+event",
+    "change.+date",
+    "change.+time",
+    "delete.+event",
     "reschedule",
-	"change\s+location",
-    "change\s+place"
+	"change.+location",
+    "change.+place"
 ]
 
 modify_responses = [
@@ -83,8 +83,8 @@ greetings_initial_patterns = [
     "hi",
     "hey",
     "hey.+",
-	"buenos\sdias",
-    "buenas\snoches",
+	"buenos\s+dias",
+    "buenas\s+noches",
     "greetings",
     "salutations",
 	"bonjour",
@@ -171,14 +171,14 @@ swearword_responses = [
 exchanges.append(VerbalExchange("Swearwords", swearword_initial_patterns, swearword_responses))
 
 compliments_initial_patterns = [
-    "you'?re\sgreat",
-    "you'?re\scute",
+    "you.+great",
+    "you.+cute",
     "beautiful",
     "wonderful",
     "amazing",
     "scrumptuous",
     "excellent",
-    "you'?re\sgood",
+    "you.+good",
 	"smart",
     "intelligent",
     "reasonable",
@@ -217,24 +217,24 @@ slang_responses = [
     "Gosh, your lingo is a little hip for me.",
     "Wow you're sooooo cool!",
     "I bet you're one of the cool kids.",
-	"Wow, I'm plugged in to the internet and I don't even know what that means!"
+	"Wow, I'm plugged in to the internet and I don't even know what that means..."
 ]
 
 exchanges.append(VerbalExchange("Slang", slang_initial_patterns, slang_responses))
 
 insults_initial_patterns = [
-    "you\ssuck",
-    "you'?re\sdumb",
-    "you'?re\sstupid",
-    "you'?re\sugly",
+    "you.+suck",
+    "you.+dumb",
+    "you.+stupid",
+    "you.+ugly",
     "unfriendly",
     "smelly",
     "acidic",
 	"unkind",
-    "you'?re\sso\sextra",
+    "you.+extra",
     "worthless",
     "idiot",
-    "you'?re\sbad"
+    "you.+bad"
 ]
 
 insults_responses = [
