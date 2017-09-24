@@ -64,7 +64,7 @@ def messages_response(request):
 
         r = requests.post(url, json=payload)
         sleep(1)
-        request.post(url, json=payload2)
+        requests.post(url, json=payload2)
         logger.info(text)
         logger.info(sender)
         logger.info(token)
