@@ -50,8 +50,8 @@ def messages_response(request):
             }
         })
 
-        header = {"Content-Type": "application/json"}
-        r = requests.post(url, data=payload, header=header)
+        headers = {"Content-Type": "application/json"}
+        r = requests.post(url, data=payload, headers=headers)
         logger.info(token)
         logger.info(url)
         logger.info(r.content)
