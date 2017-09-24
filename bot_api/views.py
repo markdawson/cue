@@ -29,16 +29,13 @@ def messages_response(request):
 
         return JsonResponse({'thanks': True})
 
-    else:
+    else: # This logic is for verifying the inital api
         data = request.GET
         token = data.get('hub.verify_token')
 
         if token == 'cueparty':
             challenge = data.get('hub.challenge')
             return HttpResponse(challenge)
-
-        #logger.info(data)
-
 
     return JsonResponse({'status': 'success'})
 
