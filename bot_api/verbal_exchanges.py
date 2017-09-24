@@ -132,9 +132,11 @@ goodbyes_responses = [
 
 exchanges.append(VerbalExchange("Goodbyes", goodbyes_initial_patterns, goodbyes_responses))
 
+
 gratitude_initial_responses = [
     ".+thanks",
     ".+thank you"
+
 ]
 
 gratitude_responses = [
